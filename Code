@@ -1,0 +1,100 @@
+# get data from location that it is stored
+raddet = pd.read_csv('C:/documents/radiological-air-sample-quarterly-composites-from-2012q1-to-2017q3.csv')
+# view data
+print(raddet.head())
+Sampling Period Sampling Location  Radionuclide  Result (pCi/m3)  \
+0          2012Q1            Eureka    Cesium-134         0.000066   
+1          2012Q1            Eureka   Beryllium-7         0.082000   
+2          2012Q1            Eureka  Potassium-40        -0.000182   
+3          2012Q1            Eureka    Niobium-95         0.000059   
+4          2012Q1            Eureka  Zirconium-95        -0.000176   
+
+   Counting Error (pCi/m3)  Minimum Detectable Activity 95% (pCi/m3  \
+0                 0.000036                                 0.000106   
+1                 0.002260                                 0.002050   
+2                 0.000528                                 0.002510   
+3                 0.000112                                 0.000320   
+4                 0.000127                                 0.000327   
+
+   Total Effective Dose Equivalent (millirem)  \
+0                                    0.000000   
+1                                    0.000137   
+2                                    0.000000   
+3                                    0.000000   
+4                                    0.000000   
+
+   NRC Effluent Air Conc. Limit (pCi/m3)  
+0                                    200  
+1                                  30000  
+2                                    600  
+3                                   2000  
+4                                    400  
+# Choose the a radionuclide with a significant gamma radiation component, in this case I chose Cesium-134
+import pandas as pd
+cesium_134_data = raddet[raddet['Radionuclide']=='Cesium-134']
+print(cesium_134_data)
+ Sampling Period Sampling Location Radionuclide  Result (pCi/m3)  \
+0           2012Q1            Eureka   Cesium-134     6.610000e-05   
+10          2012Q1      Humboldt Bay   Cesium-134     4.040000e-05   
+20          2012Q1          Richmond   Cesium-134     5.750000e-05   
+30          2012Q1         Livermore   Cesium-134     9.370000e-07   
+40          2012Q1   San Luis Obispo   Cesium-134    -1.240000e-05   
+50          2012Q1     Diablo Canyon   Cesium-134     1.880000e-05   
+60          2012Q1        San Onofre   Cesium-134    -1.120000e-04   
+70          2012Q1         San Diego   Cesium-134     1.870000e-05   
+
+    Counting Error (pCi/m3)  Minimum Detectable Activity 95% (pCi/m3  \
+0                  0.000036                                 0.000106   
+10                 0.000032                                 0.000092   
+20                 0.000025                                 0.000103   
+30                 0.000025                                 0.000104   
+40                 0.000030                                 0.000124   
+50                 0.000036                                 0.000095   
+60                 0.000056                                 0.000142   
+70                 0.000038                                 0.000128   
+
+    Total Effective Dose Equivalent (millirem)  \
+0                                          0.0   
+10                                         0.0   
+20                                         0.0   
+30                                         0.0   
+40                                         0.0   
+50                                         0.0   
+60                                         0.0   
+70                                         0.0   
+
+    NRC Effluent Air Conc. Limit (pCi/m3)  
+0                                     200  
+10                                    200  
+20                                    200  
+30                                    200  
+40                                    200  
+50                                    200  
+60                                    200  
+70                                    200  
+# Use the describe() method to calculate main statistics for the 'Result (pCi/m3)' column
+result_statistics = cesium_134_data['Result (pCi/m3)'].describe()
+
+# Print the result statistics
+print(result_statistics)
+count    8.000000
+mean     0.000010
+std      0.000056
+min     -0.000112
+25%     -0.000002
+50%      0.000019
+75%      0.000045
+max      0.000066
+Name: Result (pCi/m3), dtype: float64
+# This shows that there were 8 total observations with an average detection of 1.0E-5 pico-Curies per cubic meter, with a minimum value of -1.12E-4 and a maximum value of 6.6E-5
+# Looking at a histogram of the results using matplotlib
+mport matplotlib.pyplot as plt
+# Plot a histogram of the 'Result (pCi/m3)' column
+plt.hist(cesium_134_data['Result (pCi/m3)'], bins=20, color='yellow', edgecolor='black')
+# Add labels and title
+plt.xlabel('Result (pCi/m3)')
+plt.ylabel('Frequency')
+plt.title('Histogram of Result (pCi/m3)')
+# Show the plot
+plt.show()
+# 
